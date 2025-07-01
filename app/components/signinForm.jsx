@@ -1,17 +1,23 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 export default function SigninForm() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post("api/signin", form);
       alert(res.data.message);
+
+      //login success redirect
+      router.push("/homePage");
     } catch (err) {
       alert(err.response.data.message);
     }
