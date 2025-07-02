@@ -39,19 +39,27 @@ export default function HomePage() {
 
         {/* Text */}
         <div className="max-w-xl text-center md:text-left">
-          <h2 className="text-3xl font-bold mb-6 text-gray-900">
+          <p className="text-4xl font-extrabold text-indigo-600 mb-6">
+            Web Designer & Developer
+          </p>
+
+          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
             Md. Nurul Islam (Rakib)
           </h2>
-          <p className="text-lg mb-3 text-gray-700">
+
+          <p className="text-base text-gray-600 mb-2">
             🎓 Diploma in Ceramic Technology
           </p>
-          <p className="text-lg mb-3 text-gray-700">
+
+          <p className="text-base text-gray-600 mb-2">
             🏫 Bangladesh Institute of Glass and Ceramics
           </p>
-          <p className="text-lg mb-3 text-gray-700">
+
+          <p className="text-base text-gray-600 mb-2">
             🎓 B.Sc in IPE (Industrial & Production Engineering)
           </p>
-          <p className="text-lg text-gray-700">
+
+          <p className="text-base text-gray-600">
             🏫 European University of Bangladesh
           </p>
         </div>
