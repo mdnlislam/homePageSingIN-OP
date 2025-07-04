@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 
 export default function RegisterPage() {
@@ -13,68 +13,64 @@ export default function RegisterPage() {
     college: "",
     varsity: "",
     jobSector: "",
+    dateOfBirth: "",
     image: null,
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Input fields
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // File input
   const handleImageChange = (e) => {
-    setForm({ ...form, image: e.target.files[0]?.name }); // শুধুমাত্র নাম পাঠানো হচ্ছে
+    setForm({ ...form, image: e.target.files[0]?.name });
   };
 
-  // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    // try {
-    //   const res = await axios.post("/api/register", form);
-    //   setMessage(res.data.message || "Registration successful!");
-    //   setForm({
-    //     name: "",
-    //     email: "",
-    //     phone: "",
-    //     gender: "",
-    //     school: "",
-    //     college: "",
-    //     varsity: "",
-    //     jobSector: "",
-    //     image: null,
-    //   });
-    // } catch (error) {
-    //   setMessage(
-    //     error.response?.data?.message || "Something went wrong. Try again."
-    //   );
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const res = await axios.post("/api/register", form);
+      setMessage(res.data.message || "Registration successful!");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        gender: "",
+        school: "",
+        college: "",
+        varsity: "",
+        jobSector: "",
+        dateOfBirth: "",
+        image: null,
+      });
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message || "Something went wrong. Try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-200 to-green-300">
       {/* Navbar */}
       <div className="fixed top-0 left-0 w-full z-50">
         <Navbar />
       </div>
 
-      {/* Spacer */}
       <div className="h-16" />
 
-      {/* Form Container */}
       <div className="max-w-3xl mx-auto bg-white bg-opacity-90 rounded-lg shadow-lg p-8 my-12">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Family Member Register Form
         </h1>
 
-        {/* Message */}
         {message && (
           <div
             className={`mb-4 p-3 rounded ${
@@ -87,9 +83,7 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Image Upload */}
           <div>
             <label
               htmlFor="image"
@@ -103,11 +97,10 @@ export default function RegisterPage() {
               name="image"
               accept="image/*"
               onChange={handleImageChange}
-              className="w-full px-4 py-2 border rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Name */}
           <div>
             <label
               htmlFor="name"
@@ -123,11 +116,10 @@ export default function RegisterPage() {
               onChange={handleChange}
               required
               placeholder="Your full name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Email */}
           <div>
             <label
               htmlFor="email"
@@ -143,11 +135,10 @@ export default function RegisterPage() {
               onChange={handleChange}
               required
               placeholder="you@example.com"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Phone */}
           <div>
             <label
               htmlFor="phone"
@@ -163,11 +154,10 @@ export default function RegisterPage() {
               onChange={handleChange}
               required
               placeholder="+8801XXXXXXXXX"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Gender */}
           <div>
             <label
               htmlFor="gender"
@@ -181,7 +171,7 @@ export default function RegisterPage() {
               value={form.gender}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="" disabled>
                 Select Gender
@@ -192,7 +182,6 @@ export default function RegisterPage() {
             </select>
           </div>
 
-          {/* School */}
           <div>
             <label
               htmlFor="school"
@@ -207,11 +196,10 @@ export default function RegisterPage() {
               value={form.school}
               onChange={handleChange}
               placeholder="Your school name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* College */}
           <div>
             <label
               htmlFor="college"
@@ -226,11 +214,10 @@ export default function RegisterPage() {
               value={form.college}
               onChange={handleChange}
               placeholder="Your college name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Varsity */}
           <div>
             <label
               htmlFor="varsity"
@@ -245,11 +232,10 @@ export default function RegisterPage() {
               value={form.varsity}
               onChange={handleChange}
               placeholder="Your university name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Job Sector */}
           <div>
             <label
               htmlFor="jobSector"
@@ -264,15 +250,32 @@ export default function RegisterPage() {
               value={form.jobSector}
               onChange={handleChange}
               placeholder="Your job sector"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Submit Button */}
+          <div>
+            <label
+              htmlFor="dateOfBirth"
+              className="block mb-1 font-semibold text-gray-700"
+            >
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              value={form.dateOfBirth}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border rounded text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded shadow transition disabled:opacity-60"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded shadow transition disabled:opacity-60"
           >
             {loading ? "Submitting..." : "Register"}
           </button>
