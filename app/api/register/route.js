@@ -21,20 +21,35 @@ export async function POST(req) {
   const college = formData.get("college");
   const varsity = formData.get("varsity");
 
-  // Image Buffer
   const buffer = Buffer.from(await imageFile.arrayBuffer());
-
-  // Filename + Save path
   const fileName = Date.now() + "-" + imageFile.name;
   const uploadDir = path.join(process.cwd(), "public", "uploads");
   const filePath = path.join(uploadDir, fileName);
 
-  // যদি uploads folder না থাকে, বানিয়ে ফেলি
   if (!existsSync(uploadDir)) {
     mkdirSync(uploadDir, { recursive: true });
   }
 
-  // Write image to public/uploads
+  const dataPath = path.join(process.cwd(), "data", "users.json");
+  let users = [];
+
+  try {
+    const existing = await readFile(dataPath, "utf-8");
+    users = JSON.parse(existing);
+  } catch (err) {
+    users = [];
+  }
+
+  // ✅ Check if email already exists
+  const emailExists = users.some((user) => user.email === email);
+  if (emailExists) {
+    return NextResponse.json(
+      { message: "Email already registered!" },
+      { status: 400 }
+    );
+  }
+
+  // ✅ Save image
   await writeFile(filePath, buffer);
 
   const userData = {
@@ -53,17 +68,6 @@ export async function POST(req) {
     varsity,
     image: "/uploads/" + fileName,
   };
-
-  // Save JSON Data
-  const dataPath = path.join(process.cwd(), "data", "users.json");
-  let users = [];
-
-  try {
-    const existing = await readFile(dataPath, "utf-8");
-    users = JSON.parse(existing);
-  } catch (err) {
-    users = [];
-  }
 
   users.push(userData);
   await writeFile(dataPath, JSON.stringify(users, null, 2));

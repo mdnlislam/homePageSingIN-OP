@@ -41,7 +41,16 @@ export default function RegisterForm() {
       formData.append(key, form[key]);
     }
 
-    await axios.post("/api/register", formData);
+    try {
+      await axios.post("/api/register", formData);
+      alert("Registered successfully!");
+    } catch (err) {
+      if (err.response?.status === 400) {
+        alert(err.response.data.message); // দেখাবে: Email already registered!
+      } else {
+        alert("Something went wrong!");
+      }
+    }
 
     setForm({
       name: "",

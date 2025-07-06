@@ -1,67 +1,89 @@
 "use client";
 import Navbar from "../components/Navbar";
 import Image from "next/image";
+import { FaFacebook, FaEnvelope, FaPhone } from "react-icons/fa";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-white to-blue-50 text-gray-800">
       {/* Navbar */}
       <div className="fixed top-0 left-0 w-full z-50">
         <Navbar />
       </div>
 
-      {/* Spacer for Navbar height */}
+      {/* Spacer */}
       <div className="h-16" />
 
-      {/* Hero Section - Full Screen Light Image Only */}
-      <div className="relative w-full h-screen">
+      {/* Hero Background */}
+      <div className="relative w-full h-[90vh]">
         <Image
           src="/images/home.jpg"
           alt="Home Background"
           fill
-          className="object-cover brightness-[1.5]" // হালকা ব্যাকগ্রাউন্ড
+          className="object-cover brightness-130"
           priority
         />
       </div>
 
-      {/* Info Section: Rakib Picture + Text */}
-      <div className="bg-white text-gray-800 py-16 px-6 flex flex-col md:flex-row items-center justify-center gap-10">
+      {/* Info Section */}
+      <div className="py-5 px-6 flex flex-col items-center text-center">
         {/* Picture */}
-        <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg">
+        <div className="w-44 h-44 rounded-full overflow-hidden border-4 border-indigo-500 shadow-lg mb-4">
           <Image
             src="/images/rakib.jpg"
             alt="Md. Nurul Islam Rakib"
-            width={224}
-            height={224}
+            width={180}
+            height={180}
             className="object-cover w-full h-full"
           />
         </div>
 
-        {/* Text */}
-        <div className="max-w-xl text-center md:text-left">
-          <p className="text-4xl font-extrabold text-indigo-600 mb-6">
-            Web Designer & Developer
-          </p>
+        {/* Title */}
+        <h1 className="text-xl md:text-2xl font-semibold text-indigo-700 mb-2">
+          Web Designer & Developer
+        </h1>
 
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
-            Md. Nurul Islam (Rakib)
-          </h2>
+        {/* Name */}
+        <h2 className="text-lg font-bold text-gray-900 mb-1">
+          Md. Nurul Islam (Rakib)
+        </h2>
 
-          <p className="text-base text-gray-600 mb-2">
-            🎓 Diploma in Ceramic Technology
-          </p>
+        {/* Education Info */}
+        <p className="text-sm text-gray-600 mb-1">
+          Diploma in Ceramic Technology
+        </p>
+        <p className="text-sm text-gray-600 mb-1">
+          Bangladesh Institute of Glass and Ceramics
+        </p>
+        <p className="text-sm text-gray-600 mb-1">
+          B.Sc in IPE (Industrial & Production Engineering)
+        </p>
+        <p className="text-sm text-gray-600 mb-4">
+          European University of Bangladesh
+        </p>
 
-          <p className="text-base text-gray-600 mb-2">
-            🏫 Bangladesh Institute of Glass and Ceramics
-          </p>
-
-          <p className="text-base text-gray-600 mb-2">
-            🎓 B.Sc in IPE (Industrial & Production Engineering)
-          </p>
-
-          <p className="text-base text-gray-600">
-            🏫 European University of Bangladesh
-          </p>
+        {/* Social Icons */}
+        <div className="flex gap-5 text-2xl mt-2">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 transition"
+          >
+            <FaFacebook />
+          </a>
+          <a
+            href="mailto:your-email@example.com"
+            className="text-red-600 hover:text-red-800 transition"
+          >
+            <FaEnvelope />
+          </a>
+          <a
+            href="tel:+880123456789"
+            className="text-green-600 hover:text-green-800 transition"
+          >
+            <FaPhone />
+          </a>
         </div>
       </div>
     </div>
