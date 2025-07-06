@@ -1,66 +1,87 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Navbar from "../components/Navbar";
 
-export default function FamilyMemberPage() {
+export default function FamilyPage() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("/api/family");
+    const fetchUsers = async () => {
+      const res = await fetch("/api/family"); // এটা users.json থেকে data আনবে
       const data = await res.json();
       setUsers(data);
     };
-    fetchData();
+    fetchUsers();
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-white to-blue-200">
       <Navbar />
 
-      <div className="pt-[80px] min-h-screen bg-gradient-to-tr from-indigo-100 via-purple-100 to-pink-100 px-4 pb-16">
-        <h1 className="text-5xl font-bold text-center mb-12 text-purple-700 drop-shadow-lg">
-          Our Family
-        </h1>
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-10 underline underline-offset-8">
+          Family Members
+        </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-          {users.map((user, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-3xl shadow-xl overflow-hidden transition hover:shadow-2xl hover:scale-[1.03]"
-            >
-              {/* Top image section */}
-              <div className="w-full h-48 relative bg-gray-200">
-                <Image
-                  src="/images/rakib.jpg"
+        {users.length === 0 ? (
+          <p className="text-center text-gray-500 text-lg">No members found.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {users.map((user, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-xl shadow-md p-4 hover:shadow-xl transition duration-300"
+              >
+                <img
+                  src={user.image}
                   alt={user.name}
-                  fill
-                  className="object-cover"
+                  className="w-full h-48 object-cover rounded mb-3"
                 />
-              </div>
-
-              {/* Bottom content section */}
-              <div className="p-6 text-center space-y-1">
-                <h2 className="text-2xl font-bold text-purple-800">
+                <h3 className="text-xl font-bold text-gray-800 mb-1">
                   {user.name}
-                </h2>
-                <p className="text-gray-600">{user.gender}</p>
-                <p className="text-gray-600">{user.email}</p>
-                <p className="text-gray-600">📱 {user.phone}</p>
-                <div className="text-sm text-gray-600 pt-2 space-y-1">
-                  <p>🎓 School: {user.school}</p>
-                  <p>🏫 College: {user.college}</p>
-                  <p>🏛️ Varsity: {user.varsity}</p>
-                  <p>💼 Job: {user.jobSector}</p>
-                  <p>🎂 DOB: {user.dateOfBirth}</p>
-                </div>
+                </h3>
+                <p className="text-gray-600 mb-1">
+                  <strong>Email:</strong> {user.email}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Date of Birth:</strong> {user.dob}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Father's Name:</strong> {user.fatherName}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Mother's Name:</strong> {user.motherName}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Gender:</strong> {user.gender}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Blood Group:</strong> {user.bloodGroup}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Phone:</strong> {user.phone}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Job Sector:</strong> {user.jobSector}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>Job Position:</strong> {user.jobPosition}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>School:</strong> {user.school}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <strong>College:</strong> {user.college}
+                </p>
+                <p className="text-gray-600">
+                  <strong>University:</strong> {user.varsity}
+                </p>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

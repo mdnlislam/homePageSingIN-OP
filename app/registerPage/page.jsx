@@ -1,285 +1,189 @@
 "use client";
+
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
-export default function RegisterPage() {
+export default function RegisterForm() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
+    image: null,
+    dob: "",
+    fatherName: "",
+    motherName: "",
     gender: "",
+    bloodGroup: "",
+    phone: "",
+    jobSector: "",
+    jobPosition: "",
     school: "",
     college: "",
     varsity: "",
-    jobSector: "",
-    dateOfBirth: "",
-    image: null,
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    setForm({ ...form, image: e.target.files[0]?.name });
+    const { name, value, files } = e.target;
+    setForm({
+      ...form,
+      [name]: files ? files[0] : value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
 
-    try {
-      const res = await axios.post("/api/register", form);
-      setMessage(res.data.message || "Registration successful!");
-      setForm({
-        name: "",
-        email: "",
-        phone: "",
-        gender: "",
-        school: "",
-        college: "",
-        varsity: "",
-        jobSector: "",
-        dateOfBirth: "",
-        image: null,
-      });
-    } catch (error) {
-      setMessage(
-        error.response?.data?.message || "Something went wrong. Try again."
-      );
-    } finally {
-      setLoading(false);
+    const formData = new FormData();
+    for (const key in form) {
+      formData.append(key, form[key]);
     }
+
+    await axios.post("/api/register", formData);
+
+    setForm({
+      name: "",
+      email: "",
+      image: null,
+      dob: "",
+      fatherName: "",
+      motherName: "",
+      gender: "",
+      bloodGroup: "",
+      phone: "",
+      jobSector: "",
+      jobPosition: "",
+      school: "",
+      college: "",
+      varsity: "",
+    });
+
+    setLoading(false);
+    alert("Registered!");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-200 to-green-300">
-      {/* Navbar */}
-      <div className="fixed top-0 left-0 w-full z-50">
-        <Navbar />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200">
+      {/* Navbar always top */}
+      <Navbar />
 
-      <div className="h-16" />
+      {/* Form container */}
+      <div className="flex justify-center items-center pt-10 pb-20 px-4">
+        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl">
+          <h2 className="text-3xl font-bold text-center text-black mb-8">
+            Registration Form
+          </h2>
 
-      <div className="max-w-3xl mx-auto bg-white bg-opacity-90 rounded-lg shadow-lg p-8 my-12">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-          Family Member Register Form
-        </h1>
-
-        {message && (
-          <div
-            className={`mb-4 p-3 rounded ${
-              message.includes("success")
-                ? "bg-green-200 text-green-800"
-                : "bg-red-200 text-red-800"
-            }`}
+          <form
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+            className="space-y-4"
           >
-            {message}
-          </div>
-        )}
+            {[
+              ["name", "Name"],
+              ["email", "Email"],
+              ["dob", "Date of Birth"],
+              ["fatherName", "Father's Name"],
+              ["motherName", "Mother's Name"],
+              ["phone", "Phone Number"],
+              ["jobSector", "Job Sector"],
+              ["jobPosition", "Job Position"],
+              ["school", "School Name"],
+              ["college", "College Name"],
+              ["varsity", "University Name"],
+            ].map(([field, label]) => (
+              <div key={field}>
+                <label className="block text-black font-semibold mb-1">
+                  {label}
+                </label>
+                <input
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "dob"
+                      ? "date"
+                      : "text"
+                  }
+                  name={field}
+                  placeholder={`Enter ${label.toLowerCase()}`}
+                  value={form[field]}
+                  onChange={handleChange}
+                  className="border border-gray-300 bg-gray-100 text-black placeholder:text-black p-2 w-full rounded"
+                  required
+                />
+              </div>
+            ))}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label
-              htmlFor="image"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Upload Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full px-4 py-2 border rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+            {/* Image Upload */}
+            <div>
+              <label className="block text-black font-semibold mb-1">
+                Profile Image
+              </label>
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleChange}
+                className="border border-gray-300 bg-gray-100 text-black p-2 w-full rounded"
+                required
+              />
+            </div>
 
-          <div>
-            <label
-              htmlFor="name"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              placeholder="Your full name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+            {/* Gender */}
+            <div>
+              <label className="block text-black font-semibold mb-1">
+                Gender
+              </label>
+              <select
+                name="gender"
+                value={form.gender}
+                onChange={handleChange}
+                className="border border-gray-300 bg-gray-100 text-black p-2 w-full rounded"
+                required
+              >
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-              placeholder="you@example.com"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+            {/* Blood Group */}
+            <div>
+              <label className="block text-black font-semibold mb-1">
+                Blood Group
+              </label>
+              <select
+                name="bloodGroup"
+                value={form.bloodGroup}
+                onChange={handleChange}
+                className="border border-gray-300 bg-gray-100 text-black p-2 w-full rounded"
+                required
+              >
+                <option value="">Select blood group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
 
-          <div>
-            <label
-              htmlFor="phone"
-              className="block mb-1 font-semibold text-gray-700"
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded w-full transition duration-200"
+              disabled={loading}
             >
-              Phone
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              required
-              placeholder="+8801XXXXXXXXX"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="gender"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Gender
-            </label>
-            <select
-              id="gender"
-              name="gender"
-              value={form.gender}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="school"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              School Name
-            </label>
-            <input
-              type="text"
-              id="school"
-              name="school"
-              value={form.school}
-              onChange={handleChange}
-              placeholder="Your school name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="college"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              College Name
-            </label>
-            <input
-              type="text"
-              id="college"
-              name="college"
-              value={form.college}
-              onChange={handleChange}
-              placeholder="Your college name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="varsity"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              University Name
-            </label>
-            <input
-              type="text"
-              id="varsity"
-              name="varsity"
-              value={form.varsity}
-              onChange={handleChange}
-              placeholder="Your university name"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="jobSector"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Job Sector
-            </label>
-            <input
-              type="text"
-              id="jobSector"
-              name="jobSector"
-              value={form.jobSector}
-              onChange={handleChange}
-              placeholder="Your job sector"
-              className="w-full px-4 py-2 border rounded text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="dateOfBirth"
-              className="block mb-1 font-semibold text-gray-700"
-            >
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              id="dateOfBirth"
-              name="dateOfBirth"
-              value={form.dateOfBirth}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded shadow transition disabled:opacity-60"
-          >
-            {loading ? "Submitting..." : "Register"}
-          </button>
-        </form>
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

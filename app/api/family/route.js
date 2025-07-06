@@ -1,7 +1,6 @@
-// app/api/family/route.js
-
 import { readFile } from "fs/promises";
 import path from "path";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const filePath = path.join(process.cwd(), "data", "users.json");
@@ -9,14 +8,8 @@ export async function GET() {
   try {
     const data = await readFile(filePath, "utf-8");
     const users = JSON.parse(data);
-
-    return new Response(JSON.stringify(users), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ message: "Could not load users." }), {
-      status: 500,
-    });
+    return NextResponse.json(users);
+  } catch {
+    return NextResponse.json([]);
   }
 }
