@@ -3,7 +3,7 @@ import { useState } from "react";
 import SignupForm from "../components/signupForm";
 import SigninForm from "../components/signinForm";
 
-export default function HomePage() {
+export default function Auth() {
   const [showForm, setShowForm] = useState(null);
   return (
     <div className="p-10">

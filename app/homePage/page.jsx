@@ -65,7 +65,7 @@ export default function HomePage() {
         {/* Social Icons */}
         <div className="flex gap-5 text-2xl mt-2">
           <a
-            href="https://facebook.com"
+            href="https://www.facebook.com/md.norulislamnahid.3"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 transition"
@@ -73,13 +73,13 @@ export default function HomePage() {
             <FaFacebook />
           </a>
           <a
-            href="mailto:your-email@example.com"
+            href="mailto:nurulislam8433@gmail.com"
             className="text-red-600 hover:text-red-800 transition"
           >
             <FaEnvelope />
           </a>
           <a
-            href="tel:+880123456789"
+            href="tel:01705435636"
             className="text-green-600 hover:text-green-800 transition"
           >
             <FaPhone />
