@@ -15,7 +15,7 @@ export default function Navbar() {
         {/* Desktop menu */}
         <div className="hidden md:flex gap-6">
           <NavLink href="/homePage" label="Home" />
-          <NavLink href="/registerPage" label="Register" />
+          <NavLink href="/registerPage" label="Family Register form" />
           <NavLink href="/familyPage" label="Family Member" />
           <NavLink href="/info" label="Info" />
         </div>

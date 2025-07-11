@@ -1,15 +1,15 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import connectDb from "@/lib/dbconnect";
+import FamilyMember from "@/models/familyMember";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "data", "users.json");
+  await connectDb();
 
   try {
-    const data = await readFile(filePath, "utf-8");
-    const users = JSON.parse(data);
+    const users = await FamilyMember.find().sort({ createdAt: -1 }); // সব ইউজার, নতুন আগে
     return NextResponse.json(users);
-  } catch {
-    return NextResponse.json([]);
+  } catch (error) {
+    console.error("Database read error:", error);
+    return NextResponse.json([], { status: 500 });
   }
 }

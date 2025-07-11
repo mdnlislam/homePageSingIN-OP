@@ -35,51 +35,26 @@ export default function FamilyPage() {
                 key={i}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 p-5"
               >
+                {/* চাইলে এখানে image দেখাতে পারেন */}
                 <img
-                  src={user.image}
-                  alt={user.name}
+                  src="/images/fower.jpg"
+                  alt=""
                   className="w-full h-48 object-cover rounded-xl mb-4"
                 />
+
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2 text-center">
                   {user.name}
                 </h3>
 
-                <div className="space-y-1 text-gray-700 text-sm">
+                <div className="space-y-1 text-gray-700 text-sm text-center">
                   <p>
                     <strong>Email:</strong> {user.email}
-                  </p>
-                  <p>
-                    <strong>Date of Birth:</strong> {user.dob}
-                  </p>
-                  <p>
-                    <strong>Father's Name:</strong> {user.fatherName}
-                  </p>
-                  <p>
-                    <strong>Mother's Name:</strong> {user.motherName}
-                  </p>
-                  <p>
-                    <strong>Gender:</strong> {user.gender}
-                  </p>
-                  <p>
-                    <strong>Blood Group:</strong> {user.bloodGroup}
                   </p>
                   <p>
                     <strong>Phone:</strong> {user.phone}
                   </p>
                   <p>
-                    <strong>Job Sector:</strong> {user.jobSector}
-                  </p>
-                  <p>
-                    <strong>Job Position:</strong> {user.jobPosition}
-                  </p>
-                  <p>
-                    <strong>School:</strong> {user.school}
-                  </p>
-                  <p>
-                    <strong>College:</strong> {user.college}
-                  </p>
-                  <p>
-                    <strong>University:</strong> {user.varsity}
+                    <strong>Gender:</strong> {user.gender}
                   </p>
                 </div>
               </div>
