@@ -2,10 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
 export default function SigninForm() {
-  const { setIsAuthenticated } = useAuth();
-
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -15,7 +12,7 @@ export default function SigninForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsAuthenticated(true);
+    //setIsAuthenticated(true);
 
     try {
       const res = await axios.post("api/signin", form);
