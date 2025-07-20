@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-
+import { manuItem } from "@/config";
+import LogoutButton from "@/app/components/logoutButton";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,10 +15,17 @@ export default function Navbar() {
 
         {/* Desktop menu */}
         <div className="hidden md:flex gap-6">
-          <NavLink href="/homePage" label="Home" />
+          {manuItem.map((item) => (
+            <Link key={item.label} href={item.href}>
+              {item.label}
+            </Link>
+          ))}
+          <LogoutButton />
+
+          {/* <NavLink href="/homePage" label="Home" />
           <NavLink href="/registerPage" label="Family Register form" />
           <NavLink href="/familyPage" label="Family Member" />
-          <NavLink href="/info" label="Info" />
+          <NavLink href="/info" label="Info" /> */}
         </div>
 
         {/* Mobile menu toggle */}

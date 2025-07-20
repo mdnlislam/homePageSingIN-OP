@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/app/context/authentication";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ export default function SigninForm() {
     password: "",
   });
 
+  const { setAuthentication } = useAuth();
   const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,11 @@ export default function SigninForm() {
       const res = await axios.post("api/signin", form);
       alert(res.data.message);
 
+      // save to localStorage
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      //update auth state
+      setAuthentication(true);
       //login success redirect
       router.push("/homePage");
     } catch (err) {
