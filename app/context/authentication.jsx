@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AuthPageUrl, protacPageUrl } from "@/config";
-
+import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
@@ -14,12 +14,29 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const checkAuth = () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        setAuthentication(true);
-      } else {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setAuthentication(false);
+        setLoading(false);
+        return;
+      }
+      try {
+        const decoded = jwtDecode(token);
+        const now = Date.now() / 1000;
+
+        if (decoded.exp && decoded.exp < now) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setAuthentication(false);
+        } else {
+          setAuthentication(true);
+        }
+      } catch (err) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setAuthentication(false);
       }
+
       setLoading(false);
     };
 

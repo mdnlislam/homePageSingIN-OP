@@ -20,8 +20,9 @@ export default function SigninForm() {
       const res = await axios.post("api/signin", form);
       alert(res.data.message);
 
-      // save to localStorage
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // Token and user info save
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(form));
 
       //update auth state
       setAuthentication(true);
