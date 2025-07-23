@@ -8,8 +8,9 @@ export default function LogoutButton() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setAuthentication(false);
-    router.push("/signin");
+    router.push("/");
   };
 
   return (
