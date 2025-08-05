@@ -1,43 +1,62 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { AuthPageUrl, protacPageUrl } from "@/config";
-//import { jwtDecode } from "jwt-decode";
-
+import { useRouter } from "next/navigation";
+import { AuthPageUrl } from "@/config";
+import axios from "axios";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const pathname = usePathname();
   const router = useRouter();
-  const [isAuthentication, setAuthentication] = useState(null); // null = loading
+  const [isAuthentication, setAuthentication] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
-  }, [loading]);
-
-  const validetiontoken = () => {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
-    if (!token && !user) {
-      router.push(AuthPageUrl);
-    }
-    // console.log(token, user, "token");
-    const interval = setInterval(() => {
-      const currentTokent = localStorage.getItem("token");
-      const currentuser = localStorage.getItem("user");
 
-      if (token !== currentTokent && user !== currentuser) {
-        router.push(AuthPageUrl);
+    if (token && user) {
+      // setAuthentication(true);
+      try {
+        const { email, password } = JSON.parse(user);
+        handleSubmit({ email, password });
+      } catch (err) {
+        localStorageClearAndRedirect();
+        console.log(err.message, "3");
       }
-    }, 1000);
-    return () => clearInterval(interval);
+    } else {
+      localStorageClearAndRedirect();
+      console.log("2");
+    }
+
+    setLoading(false);
+  }, []);
+
+  const localStorageClearAndRedirect = () => {
+    router.push(AuthPageUrl);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
-  useEffect(() => {
-    validetiontoken();
-  }, []);
+  const handleSubmit = async (user) => {
+    try {
+      const res = await axios.post("api/signin", user);
+      alert(res.data.message);
+
+      // Token and user info save
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Update auth state
+      setAuthentication(true);
+
+      // Login success redirect
+      router.push("/homePage");
+    } catch (err) {
+      console.log(err.message, "1");
+      localStorageClearAndRedirect();
+    }
+  };
 
   return (
     <AuthContext.Provider

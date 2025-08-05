@@ -5,8 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 export default function SigninForm() {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: "nurulislam8433@gmail.com",
+    password: "246717",
   });
 
   const { setAuthentication } = useAuth();
@@ -48,6 +48,7 @@ export default function SigninForm() {
           <input
             type="email"
             required
+            value={form.email}
             placeholder="Enter your email"
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             className="border border-gray-300 p-3 rounded-md w-full placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -60,6 +61,7 @@ export default function SigninForm() {
           <input
             type="password"
             required
+            value={form.password}
             placeholder="Enter your password"
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             className="border border-gray-300 p-3 rounded-md w-full placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-400"
