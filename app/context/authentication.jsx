@@ -10,7 +10,10 @@ export default function AuthProvider({ children }) {
   const router = useRouter();
   const [isAuthentication, setAuthentication] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  /**
+   * 1.
+   *
+   */
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
